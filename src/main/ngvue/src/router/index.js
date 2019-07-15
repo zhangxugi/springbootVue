@@ -3,12 +3,19 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import list from '@/components/list'
 import insert from '@/components/insert'
-Vue.use(Router)
+import yanzhengma from '@/components/yanzhengma'
+import messages from '@/components/messages'
+import insertmessages from '@/components/insertmessages'
+import Distpicker from 'v-distpicker'
+Vue.use(Router,Distpicker)
 
 export default new Router({
   routes: [
     {path: '/', name: 'HelloWorld', component: HelloWorld},
     {path: '/list', name: 'list', component: list},
-    {path:'/insert', name:'insert', component: insert}
+    {path:'/insert', name:'insert', component: insert},
+    {path:'/yanzhengma', name:'yanzhengma', component: yanzhengma},
+    {path:'/messages', name:'messages', component: messages},
+    {path:'/insertmessages', name:'insertmessages', component: insertmessages}
   ]
 })

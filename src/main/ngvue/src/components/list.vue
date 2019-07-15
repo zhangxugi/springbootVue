@@ -6,10 +6,11 @@
     <el-table-column prop="ename" label="姓名" width="180"></el-table-column>
     <el-table-column prop="esex" label="性别" width="180"></el-table-column>
     <el-table-column prop="epassword" label="密码" width="180"></el-table-column>
+    <el-table-column prop="ecreaton" label="日期" width="180"></el-table-column>
     <el-table-column prop="eaddress" label="地址" width="180"></el-table-column>
     <el-table-column label="操作"><template slot-scope="scope">
-        <el-button size="mini" @click="empSelectbyId(scope.$index, scope.row,tableData)">编辑</el-button>
-      <router-link to="/insert">添加</router-link>
+        <el-button size="mini"  type="danger" @click="empSelectbyId(scope.$index, scope.row,tableData)">编辑</el-button>
+      <el-button size="mini" type="danger"><router-link to="/insert">添加</router-link></el-button>
 
       <el-dialog title="修改数据" :visible.sync="dialogFormVisible">
         <el-form :model="ruleForm">
@@ -25,8 +26,18 @@
               <el-option label="女" value="女"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="地址" >
-            <el-input v-model="ruleForm.eaddress" autocomplete="off"></el-input>
+            <el-form-item label="日期">
+              <el-date-picker
+                v-model="ruleForm.ecreaton"
+                type="datetime"
+                placeholder="选择日期时间">
+              </el-date-picker>
+          </el-form-item>
+          <el-form-item label="地址" prop="eaddress" >
+            <VDistpicker :province="getListData.province" :city="getListData.city" :area="getListData.district" @province="onChangeProvince" @city="onChangeCity" @area="onChangeArea" ></VDistpicker>
+          </el-form-item>
+          <el-form-item label="详细地址" prop="detailedaddress">
+            <el-input v-model="ruleForm.detailedaddress" style="width: 300px"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -34,17 +45,17 @@
           <el-button type="primary" @click="dialogFormVisible = false,handleEdit(ruleForm)">确 定</el-button>
         </div>
       </el-dialog>
-        <el-button
-          size="mini"
-          type="danger"
-          @click="handleDelete(scope.$index, scope.row,tableData)">删除</el-button>
+        <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row,tableData)">删除</el-button>
+      <el-button size="mini" type="danger" @click="Shortmessages(scope.$index, scope.row,tableData)">短信发送</el-button>
       </template>
     </el-table-column>
   </el-table>
 </template>
 <!---->
 <script>
-export default {
+  import VDistpicker from 'v-distpicker'
+  export default {
+    components: { VDistpicker },
     data() {
       return {
         tableData: [],
@@ -53,7 +64,14 @@ export default {
           ename: '',
           esex: '',
           epassword: '',
-          eaddress: ''
+          eaddress: '',
+          detailedaddress:'',
+          ecreaton:''
+        },
+        getListData:{
+          province:'',
+          city:'',
+          district:''
         },
         dialogTableVisible: false,
         dialogFormVisible: false,
@@ -104,9 +122,33 @@ export default {
         }
        );
 },
+
+      //短信发送
+      Shortmessages:function (index,row,tableData) {
+        if(tableData[index].eaddress!==''&&tableData[index].eaddress!==null){
+          this.$router.push({path: '/messages'});
+        }else {
+          alert("地址为空");
+        }
+
+      },
+      onChangeProvince(data) {
+        this.getListData.province = data.value;
+      },
+      onChangeCity(data) {
+        this.getListData.city = data.value;
+      },
+      onChangeArea(data) {
+        this.getListData.district = data.value;
+      },
     }
 
 
 }
 
 </script>
+<style>
+  a {
+    text-decoration: none;
+  }
+</style>

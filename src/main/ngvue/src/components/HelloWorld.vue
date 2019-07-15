@@ -13,6 +13,9 @@
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')" style="width:100%;">登录</el-button>
       </el-form-item>
+      <el-form-item>
+        <el-button type="primary"  style="width:100%;"><router-link to='/yanzhengma'>其他方式</router-link></el-button>
+      </el-form-item>
     </el-form>
   </div>
 
@@ -66,10 +69,9 @@
     margin: auto;
   }
 
-
-
-
-
+  a {
+    text-decoration: none;
+  }
 
 </style>
 

@@ -13,8 +13,18 @@
           <el-option label="女" value="女"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="日期">
+        <el-date-picker
+          v-model="ruleForm.ecreaton"
+          type="datetime"
+          placeholder="选择日期时间">
+        </el-date-picker>
+      </el-form-item>
       <el-form-item label="地址" prop="eaddress">
-        <el-input v-model="ruleForm.eaddress"></el-input>
+        <VDistpicker :province="getListData.province" :city="getListData.city" :area="getListData.district" @province="onChangeProvince" @city="onChangeCity" @area="onChangeArea" ></VDistpicker>
+      </el-form-item>
+      <el-form-item label="详细地址" prop="detailedaddress">
+      <el-input v-model="ruleForm.detailedaddress" style="width: 300px"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm(ruleForm)">立即创建</el-button>
@@ -25,7 +35,9 @@
 
 
 <script>
+  import VDistpicker from 'v-distpicker'
   export default {
+    components: { VDistpicker },
     name: "insert",
     data () {
       return{
@@ -33,15 +45,22 @@
           ename :'',
           epassword :'',
           esex:'',
-          eaddress :''
-
-
+          eaddress :'',
+         detailedaddress:'',
+          ecreaton:''
         },
+        getListData:{
+          province:'',
+          city:'',
+          district:''
+        },
+
       }
 
     },
     methods:{
       submitForm :function() {
+        this.ruleForm.eaddress=this.getListData.province+this.getListData.city+this.getListData.district+this.ruleForm.detailedaddress;
         this.$axios.post('v1/hello/insert', this.ruleForm).then(
           res=>{
           alert("添加成功")
@@ -52,7 +71,17 @@
       },
       open() {
         this.$message('添加失败');
-      }
+      },
+      onChangeProvince(data) {
+        this.getListData.province = data.value;
+      },
+      onChangeCity(data) {
+        this.getListData.city = data.value;
+      },
+      onChangeArea(data) {
+        this.getListData.district = data.value;
+      },
+
     }
   }
 </script>

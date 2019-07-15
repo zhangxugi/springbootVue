@@ -4,7 +4,7 @@ package com.zx.demo.server;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zx.demo.mapper.Empmapper;
-import com.zx.demo.pojo.Emp;
+import com.zx.demo.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +51,56 @@ public class EmpserviceImpl implements Empservice {
 	public int update(Emp user){ return ums.update(user); }
 
 	public int login(Emp user){return ums.login(user); }
+
+	@Override
+	public List<Province> selecctProvince() {
+		return ums.selecctProvince();
+	}
+
+	@Override
+	public List<City> getCityByProvinceId(String id) {
+		return ums.getCityByProvinceId(id);
+	}
+
+	@Override
+	public List<Area> getAreaByCityId(String id) {
+		return ums.getAreaByCityId(id);
+	}
+
+	@Override
+	public List<Messages> selectmessages() {
+		return ums.selectmessages();
+	}
+
+	@Override
+	public int insertmessages(Messages messages) {
+		return ums.insertmessages(messages);
+	}
+
+	@Override
+	public int deletemessages(int mid) {
+		return ums.deletemessages(mid);
+	}
+
+	@Override
+	public Messages selectmessagesbyid(int mid) {
+		return ums.selectmessagesbyid(mid);
+	}
+
+	@Override
+	public int updatemessages(Messages messages) {
+		return ums.updatemessages(messages);
+	}
+
+	@Override
+	public String phone(String phone) {
+		return ums.phone(phone);
+	}
+
+	@Override
+	public int phonelogin(String phone) {
+		return ums.phonelogin(phone);
+	}
 
 
 }
