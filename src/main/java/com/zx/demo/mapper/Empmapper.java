@@ -40,10 +40,19 @@ public interface Empmapper<T>  {
   @Select("select * from area where father=#{father}")
   List<Area>getAreaByCityId(String father);
 
-  @Select("select * from messages order by mid ")
+  /*
+   # 星号代替，需要屏蔽几位就输入几个字符，这儿是 4 位星号
+        '****',
+        # user_name = 手机号字段。取第 1 位开始一共 3 个字符（手机号前 3 位
+        substring(u.phone, 1, 3),
+        # 取第 8 位开始一共 4 个字符（手机号后 4 位
+          substring(u.phone, 8, 4)
+   */
+ // @Select("SELECT u.mid,u.company,u.phone,concat_ws('****',substring(u.phone, 1, 3),substring(u.phone, 8, 4)) AS 'phones' FROM messages AS u ")
+  @Select("select * from messages")
   public List<Messages> selectmessages();
 
-  @Insert("insert into messages(company,phone) values(#{company},#{phone})")
+  @Insert("insert into messages(company,phone,phones) values(#{company},#{phone},#{phones})")
   public int insertmessages(Messages messages);
 
   @Delete("delete from messages where mid =#{mid}")
@@ -52,7 +61,7 @@ public interface Empmapper<T>  {
   @Select("select *  from messages where mid =#{mid}")
   public Messages selectmessagesbyid(int mid);
 
-  @Update("update messages set company = #{company}, phone = #{phone}  where mid =#{mid} ")
+  @Update("update messages set company = #{company}, phone = #{phone},phones = #{phones}  where mid =#{mid} ")
   public int updatemessages(Messages messages);
 
 

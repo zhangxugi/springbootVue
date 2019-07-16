@@ -2,7 +2,7 @@
   <el-table :data="tableData" style="width: 100%">
     <el-table-column prop="mid" label="ID" width="180"></el-table-column>
     <el-table-column prop="company" label="单位名称" width="180"></el-table-column>
-    <el-table-column prop="phone" label="手机号" width="180"></el-table-column>
+    <el-table-column prop="phones" label="手机号" width="180"></el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
         <el-button size="mini"   type="danger" @click="messagesSelectbyId(scope.$index, scope.row,tableData)">编辑</el-button>
@@ -15,6 +15,9 @@
             </el-form-item>
             <el-form-item label="手机号" >
               <el-input v-model="ruleForm.phone" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="确认手机号" >
+              <el-input v-model="ruleForm.phones" autocomplete="off"></el-input>
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
@@ -36,7 +39,8 @@
         tableData: [],
         ruleForm: {
           company: '',
-          phone: ''
+          phone: '',
+          phones:''
         },
         dialogTableVisible: false,
         dialogFormVisible: false,

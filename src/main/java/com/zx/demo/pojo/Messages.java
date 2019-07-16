@@ -9,4 +9,5 @@ public class Messages implements Serializable {
     public int mid;
     public String company;
     public String phone;
+    public String phones;
 }

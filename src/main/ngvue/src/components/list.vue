@@ -5,7 +5,6 @@
     <el-table-column prop="eid" label="ID" width="180"></el-table-column>
     <el-table-column prop="ename" label="姓名" width="180"></el-table-column>
     <el-table-column prop="esex" label="性别" width="180"></el-table-column>
-    <el-table-column prop="epassword" label="密码" width="180"></el-table-column>
     <el-table-column prop="ecreaton" label="日期" width="180"></el-table-column>
     <el-table-column prop="eaddress" label="地址" width="180"></el-table-column>
     <el-table-column label="操作"><template slot-scope="scope">

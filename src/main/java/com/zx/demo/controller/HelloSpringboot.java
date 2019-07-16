@@ -1,6 +1,7 @@
 package com.zx.demo.controller;
 
 import com.zx.demo.Config.Json;
+import com.zx.demo.Config.MD5;
 import com.zx.demo.Config.PhoneCode;
 import com.zx.demo.pojo.*;
 import com.zx.demo.server.Empservice;
@@ -10,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,7 +24,7 @@ import java.util.List;
 public class HelloSpringboot {
 
     public  String codes;
-
+    MD5 md5=new MD5();
 
     @Autowired
     private Empservice userService;
@@ -29,7 +33,10 @@ public class HelloSpringboot {
 
     @RequestMapping("/hello/login")
     @ResponseBody
-    public String login(@RequestBody Emp emp) {
+    public String login(@RequestBody Emp emp) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+        //md5进行加密
+        emp.setEpassword(md5.EncoderByMd5(emp.getEpassword()));
+        System.err.println(md5.EncoderByMd5(emp.getEpassword()));
         int i = userService.login(emp);
         if (i > 0) {
             return "success";
@@ -60,8 +67,15 @@ public class HelloSpringboot {
     @RequestMapping("/hello/insert")
     @ResponseBody
     public boolean inserttable(@RequestBody Emp emp) {
+        System.err.print(emp.getEaddress()+"swda");
+        try {
+            emp.setEpassword(md5.EncoderByMd5(emp.getEpassword()));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
-System.err.print(emp.getEaddress()+"swda");
         int i = userService.insert(emp);
         System.out.println("添加了" + i + "条数据");
         if (i == 1) {
@@ -95,8 +109,9 @@ System.err.print(emp.getEaddress()+"swda");
 
     @RequestMapping("/hello/update")
     @ResponseBody
-    public String update(@RequestBody Emp emp ){
+    public String update(@RequestBody Emp emp )throws NoSuchAlgorithmException, UnsupportedEncodingException{
         System.out.println(emp.getEpassword()+"密码");
+     emp.setEpassword(md5.EncoderByMd5(emp.getEpassword()));
         int i = userService.update(emp);
         if(i>0){
             return "success";
@@ -155,14 +170,18 @@ System.err.print(emp.getEaddress()+"swda");
     @RequestMapping("/hello/selectmessages")
     @ResponseBody
     public List selectmessages() {
-        List list = userService.selectmessages();
-        System.out.println(userService.selectmessages());
+        List<Messages> list = userService.selectmessages();
+       System.err.println(userService.selectmessages());
+
         return list;
     }
 
     @RequestMapping("/hello/insertmessages")
     @ResponseBody
     public boolean insertmessages(@RequestBody Messages messages) {
+        //手机号中间四位隐藏
+      String  pheones= messages.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+        messages.setPhones(pheones);
         int i = userService.insertmessages(messages);
         System.out.println("添加了" + i + "条数据");
         if (i == 1) {
@@ -182,6 +201,9 @@ System.err.print(emp.getEaddress()+"swda");
     @RequestMapping("/hello/updatemessages")
     @ResponseBody
     public String updatemessages(@RequestBody Messages messages ){
+        //手机号中间四位隐藏
+        String  pheones= messages.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+        messages.setPhones(pheones);
         int i = userService.updatemessages(messages);
         if(i>0){
             return "success";
