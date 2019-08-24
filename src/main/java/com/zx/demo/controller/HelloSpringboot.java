@@ -5,6 +5,7 @@ import com.zx.demo.Config.MD5;
 import com.zx.demo.Config.PhoneCode;
 import com.zx.demo.pojo.*;
 import com.zx.demo.server.Empservice;
+
 import com.zx.demo.server.redisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -44,16 +45,16 @@ public class HelloSpringboot {
         return "登录失败";
     }
 
-//    @RequestMapping("/hello/fenye")
-//    @ResponseBody
-//    public Map<String, Object> helloWorld(@RequestBody(required = false) Map<String, Object> all) {
-//
-//        Integer pageNum = (Integer) all.get("currentPage");
-//        Integer pageSize = (Integer) all.get("pageSize");
-//        System.out.println("pageNum:" + pageNum + "pageSize:" + pageSize);
-//        Map<String, Object> map = userService.getfenye(pageNum, pageSize);
-//        return map;
-//    }
+    @RequestMapping("/hello/fenye")
+    @ResponseBody
+    public Map<String, Object> helloWorld(@RequestBody(required = false) Map<String, Object> all) {
+
+        Integer pageNum = (Integer) all.get("currentPage");
+        Integer pageSize = (Integer) all.get("pageSize");
+        System.out.println("pageNum:" + pageNum + "pageSize:" + pageSize);
+        Map<String, Object> map = userService.getfenye(pageNum, pageSize);
+        return map;
+    }
 
     @RequestMapping("/hello/select")
     @ResponseBody
@@ -231,7 +232,7 @@ public class HelloSpringboot {
 
 
 
-    //手机号验证码登录
+  //  手机号验证码登录
     @RequestMapping("/hello/phonelogin")
     @ResponseBody
     public String login(@RequestParam(name="phone") String phone,@RequestParam(name="code")String code) {
@@ -262,5 +263,7 @@ public class HelloSpringboot {
 
 
     }
+
+
 
 }

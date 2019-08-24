@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import testwebsocket from '@/components/testwebsocket'
 import list from '@/components/list'
 import insert from '@/components/insert'
 import yanzhengma from '@/components/yanzhengma'
@@ -11,7 +11,8 @@ Vue.use(Router,Distpicker)
 
 export default new Router({
   routes: [
-    {path: '/', name: 'HelloWorld', component: HelloWorld},
+       {path: '/', name: 'testwebsocket', component: testwebsocket},
+   // {path: '/', name: 'HelloWorld', component: HelloWorld},
     {path: '/list', name: 'list', component: list},
     {path:'/insert', name:'insert', component: insert},
     {path:'/yanzhengma', name:'yanzhengma', component: yanzhengma},
